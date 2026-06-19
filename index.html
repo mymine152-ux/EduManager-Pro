@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Hệ Thống Quản Lý Điểm Học Sinh</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div id="login-overlay" class="login-overlay">
         <div class="glass-panel login-panel">
             <h2 id="auth-title">Đăng Nhập</h2>
-            
+
             <form id="login-form" onsubmit="event.preventDefault(); xuLyDangNhap();">
                 <label>Bạn đăng nhập với tư cách:</label>
                 <select id="login-role" style="margin-bottom: 10px;">
@@ -20,13 +21,18 @@
                 </select>
 
                 <label>Tên đăng nhập (HS dùng SBD):</label>
-                <input type="text" id="username" required>
-                
+                <input type="text" id="username" required
+                    oninvalid="this.setCustomValidity('Vui lòng điền thông tin này')"
+                    oninput="this.setCustomValidity('')">
+
                 <label>Mật khẩu:</label>
-                <input type="password" id="password" required>
-                
+                <input type="password" id="password" required
+                    oninvalid="this.setCustomValidity('Vui lòng điền thông tin này')"
+                    oninput="this.setCustomValidity('')">
+
                 <button type="submit" class="btn-primary" style="margin-top: 15px;">Đăng Nhập</button>
-                <p class="link-text">Chưa có tài khoản? <a href="#" onclick="chuyenCheDo(true)">Đăng ký tài khoản</a></p>
+                <p class="link-text">Chưa có tài khoản? <a href="#" onclick="chuyenCheDo(true)">Đăng ký tài khoản</a>
+                </p>
             </form>
 
             <form id="register-form" style="display: none;" onsubmit="event.preventDefault(); xuLyDangKy();">
@@ -37,13 +43,18 @@
                 </select>
 
                 <label>Tạo tên đăng nhập (HS dùng SBD):</label>
-                <input type="text" id="reg-username" required>
-                
+                <input type="text" id="reg-username" required
+                    oninvalid="this.setCustomValidity('Vui lòng điền thông tin này')"
+                    oninput="this.setCustomValidity('')">
+
                 <label>Tạo mật khẩu:</label>
-                <input type="password" id="reg-password" minlength="6" placeholder="Ít nhất 6 ký tự" required>
-                
+                <input type="password" id="reg-password" minlength="6" placeholder="Ít nhất 6 ký tự" required
+                    oninvalid="if(this.value===''){this.setCustomValidity('Vui lòng điền thông tin này')}else{this.setCustomValidity('Mật khẩu phải có ít nhất 6 ký tự')}"
+                    oninput="this.setCustomValidity('')">
+
                 <button type="submit" class="btn-primary" style="margin-top: 15px;">Tạo Tài Khoản</button>
-                <p class="link-text">Đã có tài khoản? <br><a href="#" onclick="chuyenCheDo(false)">Đăng nhập ngay</a></p>
+                <p class="link-text">Đã có tài khoản? <br><a href="#" onclick="chuyenCheDo(false)">Đăng nhập ngay</a>
+                </p>
             </form>
         </div>
     </div>
@@ -51,51 +62,94 @@
     <div class="app-container">
         <header>
             <h1>EduManager Pro</h1>
-            <button class="btn-danger" onclick="dangXuat()" style="position: absolute; right: 20px; top: 30px; width: 120px;">Đăng Xuất</button>
+            <button class="btn-danger" onclick="dangXuat()"
+                style="position: absolute; right: 20px; top: 30px; width: 120px;">Đăng Xuất</button>
         </header>
 
         <div class="main-content">
             <!-- CỘT TRÁI -->
             <div class="box glass-panel" id="form-section">
-                <h2 id="form-title">Thêm Học Sinh Mới</h2>
-                <form id="student-form">
-                    <input type="hidden" id="edit-id">
-                    
-                    <label>Họ và Tên:</label>
-                    <input type="text" id="student-name" required>
+                <!-- KHU VỰC CỦA GIÁO VIÊN -->
+                <div id="teacher-form-container">
+                    <h2 id="form-title">Thêm Học Sinh Mới</h2>
+                    <form id="student-form">
+                        <input type="hidden" id="edit-id">
 
-                    <!-- FORM ĐÃ ĐƯỢC LÀM GỌN LẠI -->
-                    <div style="display: flex; gap: 15px; margin-top: 10px;">
-                        <div style="flex: 1;"><label>Số báo danh:</label><input type="text" id="student-sbd" required></div>
-                        <div style="flex: 1;"><label>Ngày sinh:</label><input type="date" id="student-dob" required></div>
-                    </div>
+                        <label>Họ và Tên:</label>
+                        <input type="text" id="student-name" required
+                            oninvalid="this.setCustomValidity('Vui lòng điền họ và tên')"
+                            oninput="this.setCustomValidity('')">
 
-                    <label>Giới tính:</label>
-                    <select id="student-gender">
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                    </select>
+                        <div style="display: flex; gap: 15px; margin-top: 10px;">
+                            <div style="flex: 1;"><label>Số báo danh:</label><input type="text" id="student-sbd"
+                                    required oninvalid="this.setCustomValidity('Vui lòng điền số báo danh')"
+                                    oninput="this.setCustomValidity('')"></div>
+                            <div style="flex: 1;"><label>Ngày sinh:</label><input type="date" id="student-dob" required
+                                    oninvalid="this.setCustomValidity('Vui lòng chọn ngày sinh')"
+                                    oninput="this.setCustomValidity('')"></div>
+                        </div>
 
-                    <div style="display: flex; gap: 15px; margin-top: 10px;">
-                        <div style="flex: 1;"><label>Toán:</label><input type="number" id="math-score" step="0.1" min="0" max="10" required></div>
-                        <div style="flex: 1;"><label>Văn:</label><input type="number" id="lit-score" step="0.1" min="0" max="10" required></div>
-                        <div style="flex: 1;"><label>T.Anh:</label><input type="number" id="eng-score" step="0.1" min="0" max="10" required></div>
-                    </div>
+                        <label>Giới tính:</label>
+                        <select id="student-gender" required
+                            oninvalid="this.setCustomValidity('Vui lòng chọn giới tính')"
+                            oninput="this.setCustomValidity('')">
+                            <option value="" disabled selected hidden></option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
 
-                    <button type="submit" class="btn-primary" style="margin-top: 20px;">Lưu Thông Tin</button>
-                    <button type="button" class="btn-secondary" onclick="donDepForm()" style="margin-top: 10px;">Hủy / Nhập Lại</button>
-                </form>
+                        <div style="display: flex; gap: 15px; margin-top: 10px;">
+                            <div style="flex: 1;"><label>Toán:</label><input type="number" id="math-score" step="0.1"
+                                    min="0" max="10" required
+                                    oninvalid="if(this.value===''){this.setCustomValidity('Vui lòng nhập điểm')}else{this.setCustomValidity('Điểm phải từ 0 đến 10')}"
+                                    oninput="this.setCustomValidity('')"></div>
+                            <div style="flex: 1;"><label>Văn:</label><input type="number" id="lit-score" step="0.1"
+                                    min="0" max="10" required
+                                    oninvalid="if(this.value===''){this.setCustomValidity('Vui lòng nhập điểm')}else{this.setCustomValidity('Điểm phải từ 0 đến 10')}"
+                                    oninput="this.setCustomValidity('')"></div>
+                            <div style="flex: 1;"><label>T.Anh:</label><input type="number" id="eng-score" step="0.1"
+                                    min="0" max="10" required
+                                    oninvalid="if(this.value===''){this.setCustomValidity('Vui lòng nhập điểm')}else{this.setCustomValidity('Điểm phải từ 0 đến 10')}"
+                                    oninput="this.setCustomValidity('')"></div>
+                        </div>
+
+
+
+                        <button type="submit" class="btn-primary" style="margin-top: 20px;">Lưu Thông Tin</button>
+                    </form>
+                </div>
+
+                <!-- KHU VỰC CỦA HỌC SINH -->
+                <div id="student-form-container" style="display: none;">
+                    <h2>Cập Nhật Thông Tin</h2>
+                    <form id="student-self-form" onsubmit="event.preventDefault(); xuLyCapNhatHocSinh();">
+                        <label>Email liên hệ:</label>
+                        <input type="email" id="self-email" placeholder="example@gmail.com">
+
+                        <label>Số điện thoại:</label>
+                        <input type="tel" id="self-phone" placeholder="Nhập số điện thoại">
+
+                        <label>Địa chỉ:</label>
+                        <input type="text" id="self-address" placeholder="Nhập địa chỉ của bạn">
+
+                        <button type="submit" class="btn-primary" style="margin-top: 20px;">Lưu Thông Tin Cá
+                            Nhân</button>
+                    </form>
+                </div>
             </div>
 
             <!-- CỘT PHẢI -->
             <div class="box glass-panel" id="table-section">
-                <div id="student-info-card" style="display: none; background: #e0e7ff; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #c7d2fe;">
-                    <h3 style="color: #3730a3; border-bottom: 1px solid #c7d2fe; padding-bottom: 10px; margin-bottom: 15px;">Hồ Sơ Của Bạn</h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div id="student-info-card" style="display: none;">
+                    <h3>Hồ Sơ Của Bạn</h3>
+                    <div class="student-info-grid">
                         <p><strong>Họ tên:</strong> <span id="info-name"></span></p>
                         <p><strong>SBD:</strong> <span id="info-sbd"></span></p>
                         <p><strong>Giới tính:</strong> <span id="info-gender"></span></p>
                         <p><strong>Ngày sinh:</strong> <span id="info-dob"></span></p>
+                        <p><strong>Email:</strong> <span id="info-email">-</span></p>
+                        <p><strong>Số điện thoại:</strong> <span id="info-phone">-</span></p>
+                        <p style="grid-column: span 2;"><strong>Địa chỉ:</strong> <span id="info-address">-</span></p>
                     </div>
                 </div>
 
@@ -110,6 +164,7 @@
                                 <th>T.Anh</th>
                                 <th>Điểm TB</th>
                                 <th>Xếp Loại</th>
+                                <th id="cot-hanh-dong">Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody id="student-tbody"></tbody>
@@ -120,4 +175,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
